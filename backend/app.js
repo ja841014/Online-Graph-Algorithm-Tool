@@ -3,33 +3,26 @@ const aws = require('aws-sdk');
 const multerS3 = require("multer-s3");
 const multer = require("multer");
 const express = require("express");
+const fs = require('fs');
+
 const app = express();
+app.use(express.static("public"));
 
 // We need cors middleware to bypass CORS security in browsers.
 const cors = require("cors");
 
-app.use(express.static("static"));
 app.use(cors());
 
 let port = 5000;
+let map;
+
+
+// function BFS(head) {
+
+// }
+
 
 /**
- * The default path
- */
-app.get("/", async function(req, res) {
-    if (req.query && Object.keys(req.query).length > 0) {
-      console.log("I got a query!");
-      //handleGet(res, res, req.query);
-    }
-  });
-  
-// listen the port
-  app.listen(port, err => {
-    console.log(`Listening on port: ${port}`);
-  });
-
-
-  /**
  * A promise that resolves after t ms.
  * @param {Number} t 
  */
@@ -42,15 +35,34 @@ const delay = function(t) {
  * The default path
  */
 app.get("/", async function(req, res) {
-  if (req.query && Object.keys(req.query).length > 0) {
-    console.log("I got a query!");
-    //console.log(req.query)
-    handleGet(res, res, req.query);
-  }
-});
+    if (req.query && Object.keys(req.query).length > 0) {
+      console.log("I got a query!");
+      console.log("req.query", req.query)
+      //console.log("req.body", req.body)
+
+      handleGet(res, res, req.query);
+    }
+  });
+  
+
+
+
+
+// listen the port
+  app.listen(port, err => {
+    console.log(`Listening on port: ${port}`);
+  });
+
+
+
+
+
 
 
 //-----------------------------------------------------------------------------
+
+
+
 /**
  * Handles a Get request
  * @param {Object} req 
@@ -59,35 +71,36 @@ app.get("/", async function(req, res) {
  */
 async function handleGet(req, res, query) {
   let error = "NO_ERROR";
-  // let randomValue;
-  // let min_value;
-  // let max_value;
-
+  
+  let root;
+  let calculate_type
+  let result = "13425";
+  let graph;
   console.log("query: ", JSON.stringify(query));
   // If there was a query (a query string was sent)
-  // if (
-  //   query !== undefined &&
-  //   query.min_value !== undefined &&
-  //   query.max_value !== undefined
-  // ) {
-  //   // Convert min_value and max_value from String to integer
-  //   min_value = parseInt(query.min_value);
-  //   max_value = parseInt(query.max_value);
+  if (
+    query !== undefined &&
+    query.calculate_type !== undefined &&
+    query.root !== undefined &&
+    query.graph !== undefined
+  ) {
+    calculate_type =  query.calculate_type;
+    root = query.root;
+    graph = query.graph;
+  } 
+  else {
+    error = "ERROR: calculate_type or root not provided";
+  }
+  //let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
 
-  //   // Generate a random number
-  //   randomValue = generateRandomNumber(min_value, max_value);
-  //   console.log("randomValue: ", randomValue);
-  // } else {
-  //   error = "ERROR: min_value or max_value not provided";
-  // }
-  let test = "return test";
   // Generate the output
   let output = {
     // randomValue: randomValue,
-    // min_value: min_value,
-    // max_value: max_value,
-    error: error,
-    test: test
+    calculate_type: calculate_type,
+    root: root,
+    result:result,
+    graph:graph,
+    error: error
   };
 
   // Convert output to JSON
@@ -95,8 +108,19 @@ async function handleGet(req, res, query) {
   console.log("outputString: ", outputString);
 
   // Let's generate some artificial delay!
-  await delay(3000);
+  await delay(2000);
 
   // Send it back to the frontend.
   res.send(outputString);
 }
+
+
+
+  // function createmap() {
+  //   let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
+  //   for (const ch of data){
+  //   console.log(ch)
+  //   }
+  // }
+  
+  //createmap();
