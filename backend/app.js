@@ -1,15 +1,17 @@
 "use strict";
-const aws = require('aws-sdk');
-const multerS3 = require("multer-s3");
-const multer = require("multer");
+// const aws = require('aws-sdk');
+// const multerS3 = require("multer-s3");
+// const multer = require("multer");
 const express = require("express");
 const fs = require('fs');
-
+const bodyParser = require("body-parser");
 const app = express();
 app.use(express.static("public"));
 
 // We need cors middleware to bypass CORS security in browsers.
 const cors = require("cors");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
@@ -38,12 +40,31 @@ app.get("/", async function(req, res) {
     if (req.query && Object.keys(req.query).length > 0) {
       console.log("I got a query!");
       console.log("req.query", req.query)
+      //console.log("res", res);
       //console.log("req.body", req.body)
 
       handleGet(res, res, req.query);
     }
   });
   
+
+
+
+  // app.post("/", async function(req, res) {
+  //   console.log("I got a post query!");
+  //   console.log("req:",req);
+    
+  //   // console.log(req.query);
+  //   // console.log(req.body);
+  //   //console.log(res)
+  //   if (req.query && Object.keys(req.query).length > 0) {
+  //     console.log("I got a post query!");
+  //     //console.log("req.query", req.query)
+  //     //console.log("req.body", req.body)
+
+  //     //handleGet(res, res, req.query);
+  //   }
+  // });
 
 
 

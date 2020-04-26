@@ -35,10 +35,14 @@ app.listen(port, () => console.log(`App is listening on port ${port}.`));
 
 //listen on particular port
 // anything being sent on this machine a port 3000 we get it and then sent back as a response
-
-
-
-function createmap(content) {
+/////////////////////////
+/// Build dirested Map///
+/////////////////////////
+/**
+ * 
+ * @param {String} content 
+ */
+function diredt_createmap(content) {
   let graph={};
   
   let ancestor;
@@ -60,7 +64,47 @@ function createmap(content) {
       ancestor = parsed;
     }
   }
-  // create from the singel path to double path
+  /// sort the adjancecy nodes ///
+  let key = Object.keys(graph);
+  for(let i = 0; i < key.length; i++) {
+    graph[key[i]].sort();
+  }
+  return graph;
+}
+
+
+
+
+/////////////////////////
+// Build undirested Map//
+/////////////////////////
+/**
+ * 
+ * @param {String} content 
+ */
+function undiredt_createmap(content) {
+  let graph={};
+  
+  let ancestor;
+  for (let ch of content){
+    let parsed = parseInt(ch, 10);
+    if(ch == '\n'){
+      //console.log("switch line");
+      ancestor = undefined;
+    }
+    if(!isNaN(parsed)) {//if the char is the num, print out
+      if(ancestor != undefined && graph[ancestor] == null) {
+        let array = [];
+        graph[ancestor] = array;
+        graph[ancestor].push(parsed);
+      }
+      else if(ancestor != undefined && graph[ancestor] != null) {
+        graph[ancestor].push(parsed);
+      }
+      ancestor = parsed;
+    }
+  }
+  // create from the single path to double path
   let key = Object.keys(graph);
   for(let i = 0; i < key.length; i++) {
     for(let j = 0; j < graph[key[i]].length; j++){
@@ -83,8 +127,14 @@ function createmap(content) {
   }
   return graph;
 }
-
-
+/////////////////
+////DFS Alog/////
+/////////////////
+/**
+ * 
+ * @param {Number} root 
+ * @param {Object} map 
+ */
 function dfs(root, map) {
   let key_ = Object.keys(map);
   //console.log(key_);
@@ -149,8 +199,9 @@ app.post("/",(req, res) => {
       let file = req.files.file; // file is file_name which we define in the index.html
       let filename = file.name;
 
-
-      // extract the graph
+      //////////////////////
+      //extract the graph///
+      //////////////////////
       let content = req.files.file.data;
       let _text;
       for(let e of content){
@@ -158,15 +209,19 @@ app.post("/",(req, res) => {
         //console.log(String.fromCodePoint(e));
       }
       console.log("text: ",_text);
-      /////////////
-      // create map
-      let cre_map =  createmap(_text);
-      console.log(cre_map);
-      ////////////
-      //determine the order type//
+      //////////////
+      //create map//
+      //////////////
+      let undirected_map =  undiredt_createmap(_text);
+      console.log("undirested graph: ", undirected_map);
+      let diredt_map = diredt_createmap(_text);
+      console.log("directed graph: ", diredt_map);
+      //////////////////////////
+      //select the right Algo.//
+      //////////////////////////
       let order;
       if(calculate_type == 'DFS') {
-        order = dfs(root, cre_map);
+        order = dfs(root, undirected_map);
         console.log(order);
       }
       
@@ -196,7 +251,7 @@ app.post("/",(req, res) => {
           //   }
 
 
-          res.send({message: order});
+          res.send(calculate_type + ' order: ' + order);
           //  res.send({
           //   status: true,
           //   message: "File Upload",

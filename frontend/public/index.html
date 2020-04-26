@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+   
     <title>file upload</title>
     <!-- Loading axios library necessary for making HTTP GET requests -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
+    <div class="container p-3 my-3 border">
+
     <h1>Upload your file</h1>
-    <p>
+    <p class="text-info">
         Please select a file and submit the form.
     </p>
     <!-- dropdown menu -->
@@ -16,8 +25,8 @@
     <!-- get is used to ask data from the backend -->
     <!-- post is send the data to the backend -->
     <!-- /Users/laicunhao/Desktop/EE599/project/nodejs_template-master/frontend/app.js -->
-    <form method="POST" enctype="multipart/form-data" action="/"  target="nm_iframe">
-        <p>What do you want to calculate?
+    <form class="needs-validation" method="POST" enctype="multipart/form-data" action="/"  target="nm_iframe">
+        <p class="text-primary">What do you want to calculate?
             <select id="calculate_type" name="calculate_type">
                 <option value="DFS"> DFS </option>
                 <option value="BFS"> BFS </option>
@@ -25,12 +34,12 @@
                 <option value="neutral"> </option> -->
             </select>
         </p>
-        <p>
+        <p class="text-info">
             which node do you want to be the root?
             <input id="root" name="root" type="text" placeholder= "root" required="true">
         </p>
-        <p>
-            <label for="file">Upload a file</label>
+        <p class="text-primary">
+            Upload a file
             <input type="file" name = "file" id ="myfile">
             <input 
                 type = "submit"
