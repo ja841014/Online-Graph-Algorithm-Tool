@@ -189,52 +189,43 @@ app.post("/",(req, res) => {
   try {
     if(req.files) {
       //res.send("Server received the file.");
-      console.log("files",req.files);
-      //console.log("req.query ",req.query);
-      console.log("req.body",req.body);//這個可以拿到DFS ROOT
-      let root = parseInt(req.body.root, 10);
-      console.log("user enter the root from html: ", root)// root is name attribute
-      let calculate_type = req.body.calculate_type
-      console.log("user enter the calculate type from html: ", calculate_type);
+      // console.log("files",req.files);
+      // //console.log("req.query ",req.query);
+      // console.log("req.body",req.body);//這個可以拿到DFS ROOT
+      // let root = parseInt(req.body.root, 10);
+      // console.log("user enter the root from html: ", root)// root is name attribute
+      // let calculate_type = req.body.calculate_type
+      // console.log("user enter the calculate type from html: ", calculate_type);
       let file = req.files.file; // file is file_name which we define in the index.html
       let filename = file.name;
 
-      //////////////////////
-      //extract the graph///
-      //////////////////////
-      let content = req.files.file.data;
-      let _text;
-      for(let e of content){
-        _text = _text + String.fromCodePoint(e);
-        //console.log(String.fromCodePoint(e));
-      }
-      console.log("text: ",_text);
-      //////////////
-      //create map//
-      //////////////
-      let undirected_map =  undiredt_createmap(_text);
-      console.log("undirested graph: ", undirected_map);
-      let diredt_map = diredt_createmap(_text);
-      console.log("directed graph: ", diredt_map);
-      //////////////////////////
-      //select the right Algo.//
-      //////////////////////////
-      let order;
-      if(calculate_type == 'DFS') {
-        order = dfs(root, undirected_map);
-        console.log(order);
-      }
+      // //////////////////////
+      // //extract the graph///
+      // //////////////////////
+      // let content = req.files.file.data;
+      // let _text;
+      // for(let e of content){
+      //   _text = _text + String.fromCodePoint(e);
+      //   //console.log(String.fromCodePoint(e));
+      // }
+      // console.log("text: ",_text);
+      // //////////////
+      // //create map//
+      // //////////////
+      // let undirected_map =  undiredt_createmap(_text);
+      // console.log("undirested graph: ", undirected_map);
+      // let diredt_map = diredt_createmap(_text);
+      // console.log("directed graph: ", diredt_map);
+      // //////////////////////////
+      // //select the right Algo.//
+      // //////////////////////////
+      // let order;
+      // if(calculate_type == 'DFS') {
+      //   order = dfs(root, undirected_map);
+      //   console.log(order);
+      // }
       
       //////////////
-
-
-      // let a = String.fromCodePoint(req.files.file.data.length);
-      // console.log(a);
-      // //let resultBuffer = utf8.decode(content)
-      // let resultBuffer = JSON.parse( JSON.stringify( content ) );
-
-      //var resultBuffer = encoding.convert(req.files.file.data, '7bit', 'UTF-8' );      
-      //console.log("do you change:", resultBuffer);
       //mv() => move()
       file.mv('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/'+ filename, function(err) {
         if(err) {
@@ -245,13 +236,10 @@ app.post("/",(req, res) => {
 
 
           console.log("File Upload");
-          // let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
-          //   for (const ch of data){
-          //   console.log(ch)
-          //   }
+          
 
 
-          res.send(calculate_type + ' order: ' + order);
+          res.send("haha");
           //  res.send({
           //   status: true,
           //   message: "File Upload",
@@ -277,16 +265,5 @@ app.post("/",(req, res) => {
     res.status(500).send(err);
   }
 });
-
-
-
-  // function createmap() {
-  //   let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
-  //   for (const ch of data){
-  //   console.log(ch)
-  //   }
-  // }
-  
-  //  createmap();
 
 

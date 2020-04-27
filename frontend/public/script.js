@@ -29,10 +29,17 @@ async function submit() {
 
     var formData = new FormData();
     let myfile = document.getElementById('myfile').files[0];
+    let calculate_type = document.getElementById("calculate_type").value;
+    let root = document.getElementById("root").value;
     //var formData = new FormData(document.querySelector('form'));
     formData.append("file", myfile);
+    formData.append("calculate_type", calculate_type);
+    console.log("formdata", formData.get('calculate_type'));
+    formData.append("root", root);
 
 
+
+  console.log("my file.value",myfile.value);
     //console.log(myfile)
     let filename = myfile.name;
     let size = myfile.size;
@@ -133,12 +140,12 @@ async function submit() {
     
 
     let order = document.getElementById("order");
-    //order.innerHTML = "Please wait...";
+    order.innerHTML = "Please wait...";
 
     try {
         //delay(5000);
-        let calculate_type = document.getElementById("calculate_type").value;
-        let root = document.getElementById("root").value;
+        // let calculate_type = document.getElementById("calculate_type").value;
+        // let root = document.getElementById("root").value;
         
         let request = `http://127.0.0.1:5000/?calculate_type=${calculate_type}&root=${root}&graph=${graph} `;
         console.log("request: ", request);
@@ -146,17 +153,17 @@ async function submit() {
 
       //let testt = 567;
         // Send an HTTP GET request to the backend
-        const data = await axios.get(request);
-        //const data2 = await axios.post('http://127.0.0.1:5000', testt)
+        //const data = await axios.get(request);
+        const data = await axios.post('http://127.0.0.1:5000', formData)
         // const data2 = await axios.post('http://127.0.0.1:5000', formData, {
         //   headers: {'Content-Type': 'multipart/form-data'}
         // });
 
 
-
-        console.log("data.data: ", JSON.stringify(data.data, null, 2));
+        console.log("data.data: ", JSON.stringify(data.data, null, 2))
+        //console.log("data.data: ", JSON.stringify(data.data, null, 2));
         
-        // order.innerHTML = data.data.result;
+        order.innerHTML = "yor are success." + data.data.order;
     
         // // Display the random value
         // random_value_element.innerHTML = "Here is your random number: " + data.data.randomValue;
