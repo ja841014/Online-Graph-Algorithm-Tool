@@ -127,6 +127,7 @@ function undiredt_createmap(content) {
  * 
  * @param {Number} root 
  * @param {Object} map 
+ * @return type array
  */
 function dfs(root, map) {
   let key_ = Object.keys(map);
@@ -153,8 +154,37 @@ function dfs(root, map) {
   return order;
 }
 
+//  function dfs_direct(root, map) {
+//   let key = Object.keys(map);
+//    let order = dfs(root, map);//array
+//    let new_order = [];
+//    for(let i = 0; i < key.length; i++) {
+//     if(order.includes(key[i]) == false) {
+//       dfs(key[i], map);//有錯
+//     }
+//    }
+//  }
 
-
+function bfs(root, map) {
+  let discovered = [];
+  let queue = [];
+  let order = [];
+  queue.unshift(root);
+  discovered[root] = true;
+  order.push(root);
+  while(queue.length != 0) {
+    let temp = queue.pop();
+    
+    for(let j = 0; j < map[temp].length; j++) {
+      if(discovered[map[temp][j]] != true) {
+        discovered[map[temp][j]] = true
+        queue.unshift(map[temp][j]);
+        order.push(map[temp][j]);
+      }
+    }
+  }
+  return order;
+}
 
 
 
@@ -192,7 +222,11 @@ app.post("/", async (req, res) => {
   let order;
   if(calculate_type == 'DFS') {
     order = dfs(root, undirected_map);
-    console.log(order);
+    console.log("DFS",order);
+  }
+  else if(calculate_type == 'BFS') {
+    order = bfs(root, undirected_map);
+    console.log("BFS",order);
   }
 
 

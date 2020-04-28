@@ -1,6 +1,6 @@
 
 //const fs = require('fs');
-
+// const viz = require("viz.js")
 
 
 
@@ -38,6 +38,8 @@ async function submit() {
     formData.append("root", root);
 
 
+    
+
 
   console.log("my file.value",myfile.value);
     //console.log(myfile)
@@ -46,17 +48,20 @@ async function submit() {
     console.log("file name: "+filename+"  size: "+ size)
 
   
-    // let reader = new FileReader();//这是核心,读取操作就是由它完成.
-    // reader.readAsText(myfile);//读取文件的内容,也可以读取文件的URL
-    // // //console.log('tt',reader.readAsText(myfile));
-    // reader.onload = function() {
-    //   //let temp = reader.result;
-    //   graph = reader.result;
-    //   //graph = ArrayBuffer.transfer(reader.result);
-    //   //console.log(this.result);
-    //   console.log(graph);
-    //   //return graph;
-    // }
+    let reader = new FileReader();//这是核心,读取操作就是由它完成.
+    reader.readAsText(myfile);//读取文件的内容,也可以读取文件的URL
+    // //console.log('tt',reader.readAsText(myfile));
+    reader.onload = function() {
+      //let temp = reader.result;
+      graph = reader.result;
+      //graph = ArrayBuffer.transfer(reader.result);
+      //console.log(this.result);
+      d3.select("#graph").graphviz()
+      .renderDot(graph);
+
+      console.log(graph);
+      //return graph;
+    }
     // graph = JSON.stringify(graph);
     // console.log("outside",graph);
 
@@ -138,7 +143,6 @@ async function submit() {
 
 
     
-
     let order = document.getElementById("order");
     order.innerHTML = "Please wait...";
 
@@ -163,8 +167,8 @@ async function submit() {
         console.log("data.data: ", JSON.stringify(data.data, null, 2))
         //console.log("data.data: ", JSON.stringify(data.data, null, 2));
         
-        order.innerHTML = "yor are success." + data.data.order;
-    
+        order.innerHTML = "Your " +calculate_type+ " order is: " + data.data.order;
+        //order,innerHTML = "your image look like" + data.data.image;
         // // Display the random value
         // random_value_element.innerHTML = "Here is your random number: " + data.data.randomValue;
       } catch (error) {
@@ -175,3 +179,4 @@ async function submit() {
 
 //reference
 // https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onload
+// https://stackoverrun.com/cn/q/12618653  graph

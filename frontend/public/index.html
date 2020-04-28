@@ -6,7 +6,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    
+    <script src="//d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/viz.js@1.8.0/viz.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@0.1.2/build/d3-graphviz.min.js"></script>
    
     <title>file upload</title>
     <!-- Loading axios library necessary for making HTTP GET requests -->
@@ -14,9 +16,11 @@
 </head>
 <body>
     <div class="container p-3 my-3 border">
+    <div style="text-align:center;"><h1>Upload your file</h1></div>
 
-    <h1>Upload your file</h1>
-    <p class="text-info">
+       
+    
+    <p class="text-info" style="text-align: center;">
         Please select a file and submit the form.
     </p>
     <!-- dropdown menu -->
@@ -26,7 +30,7 @@
     <!-- post is send the data to the backend -->
     <!-- /Users/laicunhao/Desktop/EE599/project/nodejs_template-master/frontend/app.js -->
     <form class="needs-validation" method="POST" enctype="multipart/form-data" action="/"  target="nm_iframe">
-        <p class="text-primary">What do you want to calculate?
+        <p  style="text-align:center;" class="text-primary">What do you want to calculate?
             <select id="calculate_type" name="calculate_type">
                 <option value="DFS"> DFS </option>
                 <option value="BFS"> BFS </option>
@@ -34,13 +38,15 @@
                 <option value="neutral"> </option> -->
             </select>
         </p>
-        <p class="text-info">
-            which node do you want to be the root?
+        <p  style="text-align:center;" class="text-info">
+            Which node do you want to be the root?
             <input id="root" name="root" type="text" placeholder= "root" required="true">
         </p>
-        <p class="text-primary">
+        <p  style="text-align:center;" class="text-primary">
             Upload a file
             <input type="file" name = "file" id ="myfile">
+        </p>
+        <p style="text-align:center;"> 
             <input 
                 type = "submit"
                 name="submit"
@@ -50,12 +56,13 @@
                 onclick="submit()"
             >
         </p>
-
     </form>
     <!-- style="display:none"可用這個把框框隱藏掉 -->
-    <iframe id="id_iframe" name="nm_iframe" ></iframe>
+    <iframe id="id_iframe" name="nm_iframe" style="display: none" ></iframe>
     <span class="loader text-center" id="loader"> </span>
-    <span id="order"></span>
+    <div id="order" style="text-align: center;"></div>
+    <div id="graph" style="text-align: center;"></div>
+
 </body>
   <!-- Use script.js to handle events on this page -->
 <script type="text/javascript" src="script.js"></script>
