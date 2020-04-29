@@ -31,11 +31,14 @@ async function submit() {
     let myfile = document.getElementById('myfile').files[0];
     let calculate_type = document.getElementById("calculate_type").value;
     let root = document.getElementById("root").value;
+    let graph_type = document.getElementById("graph_type").value;
+
     //var formData = new FormData(document.querySelector('form'));
     formData.append("file", myfile);
     formData.append("calculate_type", calculate_type);
     console.log("formdata", formData.get('calculate_type'));
     formData.append("root", root);
+    formData.append("graph_type", graph_type);
 
 
     

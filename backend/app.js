@@ -29,7 +29,7 @@ app.listen(port, () => console.log(`App is listening on port ${port}.`));
 /////////**********////////
 
 /////////////////////////
-/// Build dirested Map///
+/// Build Directed Map///
 /////////////////////////
 /**
  * 
@@ -64,9 +64,6 @@ function diredt_createmap(content) {
   }
   return graph;
 }
-
-
-
 
 /////////////////////////
 // Build undirested Map//
@@ -131,8 +128,47 @@ function undiredt_createmap(content) {
  */
 function dfs(root, map) {
   let key_ = Object.keys(map);
+  // key_ = parseInt(key_)
+  // console.log("key",key_);
+  let discovered = [];
+  let stack = [];
+  let order = [];
+  stack.push(root);
+  while(stack.length != 0) {
+    let temp = stack.pop();
+    if(discovered[temp] == true) {// already visited
+      continue;
+    }
+    else { // visiting now
+      discovered[temp] = true;
+      order.push(temp);
+    }
+    if(map[temp] != undefined) {
+      for(let j = 0; j < map[temp].length; j++) {
+        if(discovered[map[temp][j]] != true) {
+          stack.push(map[temp][j]);
+        }
+      }
+    }
+  }
+  return order;
+}
+/////////////////
+//DFS_dir Alog///
+/////////////////
+/**
+ * 
+ * @param {Number} root 
+ * @param {Object} map 
+ * @return type array
+ */
+function dfs_dir(root, map, visited) {
+  let key_ = Object.keys(map);
   //console.log(key_);
   let discovered = [];
+  for(let i = 0; i < visited.length; i++) {
+    discovered[visited[i]] = true;
+  }
   let stack = [];
   let order = [];
   stack.push(root);
@@ -154,17 +190,32 @@ function dfs(root, map) {
   return order;
 }
 
-//  function dfs_direct(root, map) {
-//   let key = Object.keys(map);
-//    let order = dfs(root, map);//array
-//    let new_order = [];
-//    for(let i = 0; i < key.length; i++) {
-//     if(order.includes(key[i]) == false) {
-//       dfs(key[i], map);//有錯
-//     }
-//    }
-//  }
 
+ function dfs_direct(root, map) {
+  let key = Object.keys(map);
+   let order = dfs(root, map);//array
+   console.log("original", order);
+   let merge_order;
+   for(let i = 0; i < key.length; i++) {
+    if(order.includes(parseInt(key[i])) == false) {
+      console.log("key[i]", key[i]);
+      let new_order = dfs_dir(key[i], map, order);
+      order = order.concat(parseInt(new_order));//有錯
+      console.log("merge_order", merge_order)
+    }
+   }
+   return order;
+ }
+
+/////////////////
+////BFS Alog/////
+/////////////////
+/**
+ * 
+ * @param {Number} root 
+ * @param {Object} map 
+ * 
+ */
 function bfs(root, map) {
   let discovered = [];
   let queue = [];
@@ -185,7 +236,84 @@ function bfs(root, map) {
   }
   return order;
 }
+/////////////////
+////Topo Alog////
+/////////////////
+/**
+ * 
+ * @param {Number} root 
+ * @param {Object} map 
+ * 
+ */
+function topo(map) {
+  let key = Object.keys(map);// key of map
+  console.log("key",key);
+  let indegree= [];
+  let find_root = [];
+  let order = [];
+  let count = 0;
+  let size = [];
+  // find root => indegree = 0;
+  for(let i = 0; i < key.length; i++) {
+    if(size.includes(key[i]) == false) {
+      size.push(key[i]);
+    }
+    for(let j = 0; j < map[key[i]].length; j++) {
+      if(size.includes(map[key[j]]) == false) {
+        size.push(map[key[j]]);
+      }
+    }
+  }
+  for(let i = 0; i < size.length; i++) {
+    indegree[i] = 0;
+  }
 
+  for(let i = 0; i < key.length; i++) {
+    for(let j = 0; j < map[key[i]].length; j++) {
+      indegree[ map[key[i]][j]  ]++
+    }
+  }
+  console.log("indegree",indegree)
+
+  console.log("size; ",size.length);
+
+  for(let k = 0; k < indegree.length; k++) {
+    if(indegree[k] == 0) {
+      find_root.push(k);
+    }
+  }
+
+  console.log("find_root",find_root);
+  console.log("map[5].length",map[5].length)
+  console.log("map[5][1]", map[5][1]);
+  console.log("map", map);
+  console.log("map[0]", map[0]);
+
+  while(find_root.length != 0) {
+    let temp = find_root.pop();
+    console.log(temp);
+    order.push(temp);
+    console.log("temp1", temp);
+    console.log("map1[temp]", map[temp])
+    if(map[temp] != undefined) {
+      console.log("temp2", temp);
+      console.log("map2[temp]", map[temp])
+      for(let m = 0; m < map[temp].length; m++ ) {
+        if(--indegree[ map[temp][m] ] == 0) {
+          console.log("map[temp][m]", map[temp][m]);
+          find_root.push(map[temp][m]);
+          console.log("find_root: ",find_root);
+        }
+      }
+    }
+   
+    count++;
+  }
+  if(count != indegree.length) {
+    return -20;
+  }
+  return order;
+}
 
 
 
@@ -200,6 +328,7 @@ app.post("/", async (req, res) => {
   console.log("user enter the root from html: ", root)// root is name attribute
   let calculate_type = req.body.calculate_type
   console.log("user enter the calculate type from html: ", calculate_type);
+  let graph_type = req.body.graph_type;
 
   let content = req.files.file.data;
   let _text;
@@ -220,14 +349,26 @@ app.post("/", async (req, res) => {
   //select the right Algo.//
   //////////////////////////
   let order;
-  if(calculate_type == 'DFS') {
-    order = dfs(root, undirected_map);
-    console.log("DFS",order);
+  if(graph_type == 'directed') {
+    if(calculate_type == 'DFS') {
+      order = dfs_direct(root, diredt_map);
+      console.log("DFS_Directed",order);
+    }
+    else if(calculate_type == 'Topological_Sort') {
+      order = topo(diredt_map);
+    }
   }
-  else if(calculate_type == 'BFS') {
-    order = bfs(root, undirected_map);
-    console.log("BFS",order);
+  else if(graph_type == 'undirected') {
+    if(calculate_type == 'DFS') {
+      order = dfs(root, undirected_map);
+      console.log("DFS",order);
+    }
+    else if(calculate_type == 'BFS') {
+      order = bfs(root, undirected_map);
+      console.log("BFS",order);
+    }
   }
+ 
 
 
 
