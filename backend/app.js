@@ -26,7 +26,6 @@ app.use(morgan("dev"));
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`App is listening on port ${port}.`));
-/////////**********////////
 
 /////////////////////////
 /// Build Directed Map///
@@ -37,12 +36,10 @@ app.listen(port, () => console.log(`App is listening on port ${port}.`));
  */
 function diredt_createmap(content) {
   let graph={};
-  
   let ancestor;
   for (let ch of content){
     let parsed = parseInt(ch, 10);
     if(ch == '\n'){
-      //console.log("switch line");
       ancestor = undefined;
     }
     if(!isNaN(parsed)) {//if the char is the num, print out
@@ -127,13 +124,31 @@ function undiredt_createmap(content) {
  * @return type array
  */
 function dfs(root, map) {
-  let key_ = Object.keys(map);
-  
-  // key_ = parseInt(key_)
-  // console.log("key",key_);
+
   let discovered = [];
   let stack = [];
   let order = [];
+  //ensure the input root is avaliable
+  let key = Object.keys(map);// key of map
+  let size = [];
+  for(let i = 0; i < key.length; i++) {
+    if(size.includes(parseInt(key[i],10)) == false) {
+      //console.log("i",size.includes(key[i]));
+      size.push(parseInt(key[i],10));
+    }
+    //console.log("outside check: ",key[i])
+    //put the map_value into the size array
+    for(let j = 0; j < map[key[i]].length; j++) {
+      if(size.includes(map[key[i]][j] ) == false) {
+        size.push(map[key[i]][j]);
+        //console.log("inside check: ",map[key[i]][j])
+      }
+    }
+  }
+  if(size.includes(root) == false) {
+    return "Your root is out of bound!"
+  }
+
   stack.push(root);
   while(stack.length != 0) {
     let temp = stack.pop();
@@ -164,8 +179,7 @@ function dfs(root, map) {
  * @return type array
  */
 function dfs_dir(root, map, visited) {
-  let key_ = Object.keys(map);
-  //console.log(key_);
+  
   let discovered = [];
   for(let i = 0; i < visited.length; i++) {
     discovered[visited[i]] = true;
@@ -201,7 +215,7 @@ function dfs_dir(root, map, visited) {
     if(order.includes(parseInt(key[i])) == false) {
       console.log("key[i]", key[i]);
       let new_order = dfs_dir(key[i], map, order);
-      order = order.concat(parseInt(new_order));//有錯
+      order = order.concat(parseInt(new_order));
       console.log("merge_order", merge_order)
     }
    }
@@ -221,6 +235,27 @@ function bfs(root, map) {
   let discovered = [];
   let queue = [];
   let order = [];
+  // ensure the input root is avaliable
+  let key = Object.keys(map);// key of map
+  let size = [];
+  for(let i = 0; i < key.length; i++) {
+    if(size.includes(parseInt(key[i],10)) == false) {
+      //console.log("i",size.includes(key[i]));
+      size.push(parseInt(key[i],10));
+    }
+    //console.log("outside check: ",key[i])
+    //put the map_value into the size array
+    for(let j = 0; j < map[key[i]].length; j++) {
+      if(size.includes(map[key[i]][j] ) == false) {
+        size.push(map[key[i]][j]);
+        //console.log("inside check: ",map[key[i]][j])
+      }
+    }
+  }
+  if(size.includes(root) == false) {
+    return "Your root is out of bound!"
+  }
+
   queue.unshift(root);
   discovered[root] = true;
   order.push(root);
@@ -252,31 +287,31 @@ function topo(map) {
   let indegree= [];
   let find_root = [];
   let order = [];
-  let count = 0;
   let size = [];
   // find root => indegree = 0;
+  // put the map_key into the size array
   for(let i = 0; i < key.length; i++) {
-    if(size.includes(key[i]) == false) {
-      size.push(key[i]);
+    if(size.includes(parseInt(key[i],10)) == false) {
+      size.push(parseInt(key[i],10));
     }
+    //put the map_value into the size array
     for(let j = 0; j < map[key[i]].length; j++) {
-      if(size.includes(map[key[j]]) == false) {
-        size.push(map[key[j]]);
+      if(size.includes(map[key[i]][j] ) == false) {
+        size.push(map[key[i]][j]);
+        //console.log("inside check: ",map[key[i]][j])
       }
     }
   }
+  //compute every node indegree
   for(let i = 0; i < size.length; i++) {
     indegree[i] = 0;
-  }
+  }  
 
   for(let i = 0; i < key.length; i++) {
     for(let j = 0; j < map[key[i]].length; j++) {
       indegree[ map[key[i]][j]  ]++
     }
   }
-  // console.log("indegree",indegree)
-
-  // console.log("size; ",size.length);
 
   for(let k = 0; k < indegree.length; k++) {
     if(indegree[k] == 0) {
@@ -284,35 +319,21 @@ function topo(map) {
     }
   }
 
-  // console.log("find_root",find_root);
-  // console.log("map[5].length",map[5].length)
-  // console.log("map[5][1]", map[5][1]);
-  // console.log("map", map);
-  // console.log("map[0]", map[0]);
-
   while(find_root.length != 0) {
     let temp = find_root.pop();
-    // console.log(temp);
     order.push(temp);
-    // console.log("temp1", temp);
-    // console.log("map1[temp]", map[temp])
     if(map[temp] != undefined) {
-      //console.log("temp2", temp);
-      //console.log("map2[temp]", map[temp])
+      
       for(let m = 0; m < map[temp].length; m++ ) {
         if(--indegree[ map[temp][m] ] == 0) {
-          //console.log("map[temp][m]", map[temp][m]);
           find_root.push(map[temp][m]);
-          //console.log("find_root: ",find_root);
         }
       }
     }
    
     count++;
   }
-  if(count != indegree.length) {
-    return -20;
-  }
+ 
   return order;
 }
 
@@ -327,6 +348,26 @@ function Shortest(root, map) {
   let shortest_path = {};
   let V_path;
   let empty_array = [];
+
+  let key = Object.keys(map);// key of map
+  let size = [];
+  for(let i = 0; i < key.length; i++) {
+    if(size.includes(parseInt(key[i],10)) == false) {
+      //console.log("i",size.includes(key[i]));
+      size.push(parseInt(key[i],10));
+    }
+    //console.log("outside check: ",key[i])
+    //put the map_value into the size array
+    for(let j = 0; j < map[key[i]].length; j++) {
+      if(size.includes(map[key[i]][j] ) == false) {
+        size.push(map[key[i]][j]);
+        //console.log("inside check: ",map[key[i]][j])
+      }
+    }
+  }
+  if(size.includes(root) == false) {
+    return "Your root is out of bound!"
+  }
 
   discovered[root] = true;
   order.push(root);
@@ -348,8 +389,6 @@ function Shortest(root, map) {
           order.push(map[temp][j]);
           discovered[map[temp][j]] = true
         }
-        
-
       }
     }
 
@@ -363,16 +402,14 @@ function Shortest(root, map) {
 
 //////**********////////
 app.post("/", async (req, res) => {
-  console.log("i am in the post")
-  console.log(req.files);
-  //console.log(req.files.file.data);
+  console.log("I am in the post")
+  // console.log(req.files);
   console.log("req.body", req.body);
 
   let root = parseInt(req.body.root, 10);
   console.log("user enter the root from html: ", root)// root is name attribute
   let calculate_type = req.body.calculate_type
   console.log("user enter the calculate type from html: ", calculate_type);
-  let graph_type = req.body.graph_type;
 
   //determine the graph is direct or undirect
   let content = req.files.file.data;
@@ -386,7 +423,6 @@ app.post("/", async (req, res) => {
     //console.log(String.fromCodePoint(e));
   }
   console.log("text: ",_text);
-  console.log("graph type", g)
   //////////////
   //create map//
   //////////////
@@ -407,6 +443,7 @@ app.post("/", async (req, res) => {
     }
     else if(calculate_type == 'Topological_Sort') {
       order = topo(diredt_map);
+      console.log("Topological_Sort: ", order);
     }
     else if(calculate_type == 'Shortest_Path') {
       order = Shortest(root, diredt_map);
@@ -435,11 +472,6 @@ app.post("/", async (req, res) => {
     }
   }
  
-
-
-
-
-
   let output = {
     // randomValue: randomValue,
     order: order
@@ -450,133 +482,26 @@ app.post("/", async (req, res) => {
   console.log("outputString: ", outputString);
 
   // Let's generate some artificial delay!
-
+  delay(3000);
   // Send it back to the frontend.
   res.send(outputString);
-
-
-  // try {
-  //   if (!req.files) {
-  //     res.send({
-  //       status: false,
-  //       message: "No file uploaded"
-  //     });
-  //   } else {
-  //     //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-  //     let file = req.files.file;
-
-  //     //Use the mv() method to place the file in upload directory (i.e. "uploads")
-  //     //file.mv('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/'+ filename);
-
-  //     //send response
-  //     res.send({
-  //       status: true,
-  //       message: "File is uploaded",
-  //       data: {
-  //         name: file.name,
-  //         mimetype: avatar.mimetype,
-  //         size: avatar.size
-  //       }
-  //     });
-  //   }
-  // } catch (err) {
-  //   res.status(500).send(err);
-  // }
 });
-
-
-
-
 
 // /**
 //  * A promise that resolves after t ms.
 //  * @param {Number} t 
 //  */
-// const delay = function(t) {
-//   return new Promise(resolve => setTimeout(resolve, t));
-// };
+const delay = function(t) {
+  return new Promise(resolve => setTimeout(resolve, t));
+};
 
 
-// /**
-//  * The default path
-//  */
-// app.get("/", async function(req, res) {
-//     if (req.query && Object.keys(req.query).length > 0) {
-//       console.log("I got a query!");
-//       console.log("req.query", req.query)
-//       //console.log("req.body", req.body)
-
-//       handleGet(res, res, req.query);
-//     }
-//   });
- 
-// // listen the port
-//   app.listen(port, err => {
-//     console.log(`Listening on port: ${port}`);
-//   });
-
-// //-----------------------------------------------------------------------------
-
-
-
-// /**
-//  * Handles a Get request
-//  * @param {Object} req 
-//  * @param {Object} res 
-//  * @param {Object} query 
-//  */
-// async function handleGet(req, res, query) {
-//   let error = "NO_ERROR";
-  
-//   let root;
-//   let calculate_type
-//   let result = "13425";
-//   let graph;
-//   console.log("query: ", JSON.stringify(query));
-//   // If there was a query (a query string was sent)
-//   if (
-//     query !== undefined &&
-//     query.calculate_type !== undefined &&
-//     query.root !== undefined &&
-//     query.graph !== undefined
-//   ) {
-//     calculate_type =  query.calculate_type;
-//     root = query.root;
-//     graph = query.graph;
-//   } 
-//   else {
-//     error = "ERROR: calculate_type or root not provided";
-//   }
-//   //let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
-
-//   // Generate the output
-//   let output = {
-//     // randomValue: randomValue,
-//     calculate_type: calculate_type,
-//     root: root,
-//     result:result,
-//     graph:graph,
-//     error: error
-//   };
-
-//   // Convert output to JSON
-//   let outputString = JSON.stringify(output, null, 2);
-//   console.log("outputString: ", outputString);
-
-//   // Let's generate some artificial delay!
-//   await delay(2000);
-
-//   // Send it back to the frontend.
-//   res.send(outputString);
-// }
-
-
-
-//   // function createmap() {
-//   //   let data = fs.readFileSync('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/test.txt', 'utf-8');
-//   //   for (const ch of data){
-//   //   console.log(ch)
-//   //   }
-//   // }
-  
-//   //createmap();
+module.exports = {
+  diredt_createmap: diredt_createmap,
+  undiredt_createmap: undiredt_createmap,
+  dfs: dfs,
+  dfs_direct: dfs_direct,
+  bfs: bfs,
+  topo: topo,
+  Shortest: Shortest
+};
