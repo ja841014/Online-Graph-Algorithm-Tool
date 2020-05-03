@@ -66,7 +66,7 @@ function diredt_createmap(content) {
 }
 
 /////////////////////////
-// Build undirested Map//
+// Build undirected Map//
 /////////////////////////
 /**
  * 
@@ -128,6 +128,7 @@ function undiredt_createmap(content) {
  */
 function dfs(root, map) {
   let key_ = Object.keys(map);
+  
   // key_ = parseInt(key_)
   // console.log("key",key_);
   let discovered = [];
@@ -273,9 +274,9 @@ function topo(map) {
       indegree[ map[key[i]][j]  ]++
     }
   }
-  console.log("indegree",indegree)
+  // console.log("indegree",indegree)
 
-  console.log("size; ",size.length);
+  // console.log("size; ",size.length);
 
   for(let k = 0; k < indegree.length; k++) {
     if(indegree[k] == 0) {
@@ -283,26 +284,26 @@ function topo(map) {
     }
   }
 
-  console.log("find_root",find_root);
-  console.log("map[5].length",map[5].length)
-  console.log("map[5][1]", map[5][1]);
-  console.log("map", map);
-  console.log("map[0]", map[0]);
+  // console.log("find_root",find_root);
+  // console.log("map[5].length",map[5].length)
+  // console.log("map[5][1]", map[5][1]);
+  // console.log("map", map);
+  // console.log("map[0]", map[0]);
 
   while(find_root.length != 0) {
     let temp = find_root.pop();
-    console.log(temp);
+    // console.log(temp);
     order.push(temp);
-    console.log("temp1", temp);
-    console.log("map1[temp]", map[temp])
+    // console.log("temp1", temp);
+    // console.log("map1[temp]", map[temp])
     if(map[temp] != undefined) {
-      console.log("temp2", temp);
-      console.log("map2[temp]", map[temp])
+      //console.log("temp2", temp);
+      //console.log("map2[temp]", map[temp])
       for(let m = 0; m < map[temp].length; m++ ) {
         if(--indegree[ map[temp][m] ] == 0) {
-          console.log("map[temp][m]", map[temp][m]);
+          //console.log("map[temp][m]", map[temp][m]);
           find_root.push(map[temp][m]);
-          console.log("find_root: ",find_root);
+          //console.log("find_root: ",find_root);
         }
       }
     }
@@ -314,6 +315,49 @@ function topo(map) {
   }
   return order;
 }
+
+///////////////////////////
+//Shortest path using BFS//
+///////////////////////////
+function Shortest(root, map) {
+  let discovered = [];
+  let queue = [];
+  let order = [];
+  queue.unshift(root);
+  let shortest_path = {};
+  let V_path;
+  let empty_array = [];
+
+  discovered[root] = true;
+  order.push(root);
+  shortest_path[root] = empty_array;
+  shortest_path[root].push(root);
+  while(queue.length != 0) {
+    let temp = queue.pop();
+    
+    for(let j = 0; j < map[temp].length; j++) {
+      if(discovered[map[temp][j]] != true) {
+      
+        // because array's copy is shallow copy
+        // Therefore, we have to use this method to make them be the different thing
+        V_path = JSON.parse(JSON.stringify(shortest_path[temp]));
+        V_path.push(map[temp][j]);
+        shortest_path[map[temp][j]] = V_path;
+        if (map[ map[temp][j] ] != undefined ) {
+          queue.unshift(map[temp][j]);
+          order.push(map[temp][j]);
+          discovered[map[temp][j]] = true
+        }
+        
+
+      }
+    }
+
+  }
+  return shortest_path;
+}
+
+
 
 
 
@@ -330,26 +374,33 @@ app.post("/", async (req, res) => {
   console.log("user enter the calculate type from html: ", calculate_type);
   let graph_type = req.body.graph_type;
 
+  //determine the graph is direct or undirect
   let content = req.files.file.data;
   let _text;
+  let g = 0;
   for(let e of content){
     _text = _text + String.fromCodePoint(e);
+    if(String.fromCodePoint(e) == '>') {
+      g++;
+    }
     //console.log(String.fromCodePoint(e));
   }
   console.log("text: ",_text);
-
+  console.log("graph type", g)
   //////////////
   //create map//
   //////////////
+
   let undirected_map =  undiredt_createmap(_text);
-  console.log("undirested graph: ", undirected_map);
+  console.log("undirected graph: ", undirected_map);
   let diredt_map = diredt_createmap(_text);
   console.log("directed graph: ", diredt_map);
   //////////////////////////
   //select the right Algo.//
   //////////////////////////
   let order;
-  if(graph_type == 'directed') {
+  //Directed
+  if(g > 0) {
     if(calculate_type == 'DFS') {
       order = dfs_direct(root, diredt_map);
       console.log("DFS_Directed",order);
@@ -357,8 +408,16 @@ app.post("/", async (req, res) => {
     else if(calculate_type == 'Topological_Sort') {
       order = topo(diredt_map);
     }
+    else if(calculate_type == 'Shortest_Path') {
+      order = Shortest(root, diredt_map);
+      console.log("shortest: ", order);
+    }
+    else if(calculate_type == 'BFS') {
+      order = "This method not applicable.";
+    }
   }
-  else if(graph_type == 'undirected') {
+  //Undirected 
+  else if(g == 0) {
     if(calculate_type == 'DFS') {
       order = dfs(root, undirected_map);
       console.log("DFS",order);
@@ -366,6 +425,13 @@ app.post("/", async (req, res) => {
     else if(calculate_type == 'BFS') {
       order = bfs(root, undirected_map);
       console.log("BFS",order);
+    }
+    else if(calculate_type == 'Shortest_Path') {
+      order = Shortest(root, undirected_map);
+      console.log("shortest: ", order);
+    }
+    else if(calculate_type == 'Topological_Sort') {
+      order = "Topological sort must has a directeed graph."
     }
   }
  
@@ -420,9 +486,6 @@ app.post("/", async (req, res) => {
 
 
 
-// // function BFS(head) {
-
-// // }
 
 
 // /**

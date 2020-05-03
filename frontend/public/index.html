@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="container p-3 my-3 border">
-    <div style="text-align:center;"><h1>Upload your file</h1></div>
+    <div style="text-align:center;"><h1>Online Graph Algorithm Tool</h1></div>
 
        
     
@@ -35,23 +35,33 @@
                 <option value="DFS"> DFS </option>
                 <option value="BFS"> BFS </option>
                 <option value= "Topological_Sort">Topological Sort</option>
-                <!-- <option value="shock"> </option>
-                <option value="neutral"> </option> -->
-            </select>
-        </p>
-        <p style="text-align:center;"> What kind of your graph
-            <select id="graph_type" name="graph_type">
-                <option value="directed"> Directed Graph</option>
-                <option value="undirected"> Undirected Graph</option>
+                <option value= "Shortest_Path">Shortest_Path</option>
+                
             </select>
         </p>
         <p  style="text-align:center;" class="text-info">
             Which node do you want to be the root?
-            <input id="root" name="root" type="text" placeholder= "root" required="true">
+            <input id="root" name="root" type="text" placeholder= "root" required = true>
         </p>
         <p  style="text-align:center;" class="text-primary">
             Upload a file
-            <input type="file" name = "file" id ="myfile">
+            <!-- <input type="button" id="loadFileXml" value="selet your file" onclick="document.getElementById('myfile').click();" /> -->
+             <!-- <label id="addButton" for="myfile" style="background-color: #000; color:#fff; padding:4px; border-radius:4px; font-family:monospace;" >Choose Some File </label>  -->
+            
+            
+             <!-- <input type="file" name = "file" id ="myfile" > -->
+
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet.css" rel="stylesheet"/>
+            <label for="myfile" class="btn btn-primary btn-block btn-outlined">select your file</label>
+            <input type="file" id="myfile" style="display: none">
+
+            <!-- <input type="file" id="myfile" name="fileupload" style="display: none"/>
+            <input type="text" id="filename" readonly="true"/>
+            <input type="button" value="Click to select file" id="fakeBrowse" onclick="HandleBrowseClick();"/>
+             -->
+            <!-- <input type="file" id="myfile" name="fileupload" style="display: none" onChange="Handlechange();"/>
+            <input type="text" id="filename" readonly="true"/>
+            <input type="button" value="Click to select file" id="fakeBrowse" onclick="HandleBrowseClick();"/> -->
         </p>
         <p style="text-align:center;"> 
             <input 

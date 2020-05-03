@@ -16,9 +16,31 @@ document.getElementById("submit").onclick = function() {
   submit();
 };
 
+
+// function HandleBrowseClick()
+// {
+//     var fileinput = document.getElementById("myfile");
+//     fileinput.click();
+//     var textinput = document.getElementById("filename");
+//     textinput.value = fileinput.value;
+// }
+
 // const delay = function(t) {
 //   return new Promise(resolve => setTimeout(resolve, t));
 // };
+
+
+// function HandleBrowseClick()
+// {
+//     var fileinput = document.getElementById("myfile");
+//     fileinput.click();
+// }
+// function Handlechange()
+// {
+// var fileinput = document.getElementById("myfile");
+// var textinput = document.getElementById("filename");
+// textinput.value = fileinput.value;
+// }
 
 
 
@@ -31,14 +53,15 @@ async function submit() {
     let myfile = document.getElementById('myfile').files[0];
     let calculate_type = document.getElementById("calculate_type").value;
     let root = document.getElementById("root").value;
-    let graph_type = document.getElementById("graph_type").value;
+    //let graph_type = document.getElementById("graph_type").value;
+
 
     //var formData = new FormData(document.querySelector('form'));
     formData.append("file", myfile);
     formData.append("calculate_type", calculate_type);
     console.log("formdata", formData.get('calculate_type'));
     formData.append("root", root);
-    formData.append("graph_type", graph_type);
+    //formData.append("graph_type", graph_type);
 
 
     
@@ -154,8 +177,8 @@ async function submit() {
         // let calculate_type = document.getElementById("calculate_type").value;
         // let root = document.getElementById("root").value;
         
-        let request = `http://127.0.0.1:5000/?calculate_type=${calculate_type}&root=${root}&graph=${graph} `;
-        console.log("request: ", request);
+        // let request = `http://127.0.0.1:5000/?calculate_type=${calculate_type}&root=${root}&graph=${graph} `;
+        // console.log("request: ", request);
         
 
       //let testt = 567;
@@ -167,10 +190,10 @@ async function submit() {
         // });
 
 
-        console.log("data.data: ", JSON.stringify(data.data, null, 2))
+        console.log("data.data.order: ", JSON.stringify(data.data.order, null, 2))
         //console.log("data.data: ", JSON.stringify(data.data, null, 2));
         
-        order.innerHTML = "Your " +calculate_type+ " order is: " + data.data.order;
+        order.innerHTML = "Your " +calculate_type+ " order is: " + JSON.stringify(data.data.order, null, 2)
         //order,innerHTML = "your image look like" + data.data.image;
         // // Display the random value
         // random_value_element.innerHTML = "Here is your random number: " + data.data.randomValue;
