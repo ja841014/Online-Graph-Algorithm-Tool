@@ -20,29 +20,28 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-
+// //make everything under public folder avaliable to the outside world
+ app.use(express.static("public"));
 //start app
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => console.log(`App is listening on port ${port}.`));
-// //make everything under public folder avaliable to the outside world
- app.use(express.static("public"));
 
-// app.get('/', function(req, res, next){
-//   var form = fs.readFileSync('./form.html', {encoding: 'utf8'});
-//   console.log(form);
-//   res.send(form);
+
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + "/public/index.html");
 //   });
 
 
 app.post("/",(req, res) => {
   try {
     if(req.files) {
+      console.log(req.files);
       let file = req.files.file; // file is file_name which we define in the index.html
       let filename = file.name;
       console.log(filename);
       //mv() => move()
-      file.mv('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/'+ filename, function(err) {
+      file.mv('./uploads/'+ filename, function(err) {
         if(err) {
           console.log("err occured")
           res.send(err);

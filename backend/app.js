@@ -367,7 +367,6 @@ function Shortest(root, map) {
     return "The node is the end node."
   }
 
-
   discovered[root] = true;
   order.push(root);
   shortest_path[root] = empty_array;
