@@ -1,6 +1,7 @@
 # Online Graph Algorithm Tool
 
 EE599 - Computing and Software for Systems Engineers - Spring 2020
+
 University of Southern California Viterbi School of Engineering
 
 Final Project - a full-stackimplementation of a Online Graph Algorithm Tool
@@ -57,7 +58,3 @@ The files and directories are as follows:
     └── mocha_test.js
     
 ```
-
-1. The main entry point is [app.js](app.js)
-2. All modules are in **lib** folder. Example: [lib/my_lib.js](lib/my_lib.js)
-3. Unit test files are under **test** folder. Example: [test/chai_test.js](test/chai_test.js)
