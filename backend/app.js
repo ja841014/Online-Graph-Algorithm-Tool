@@ -49,12 +49,6 @@ function check_input_root(map) {
   return size;
 }
 
-
-
-
-
-
-
 /////////////////////////
 /// Build Directed Map///
 /////////////////////////
@@ -162,7 +156,6 @@ function dfs(root, map) {
     return "Your root is out of bound!"
   }
 
-
   stack.push(root);
   while(stack.length != 0) {
     let temp = stack.pop();
@@ -210,13 +203,17 @@ function dfs_dir(root, map, visited) {
       discovered[temp] = true;
       order.push(temp);
     }
-    for(let j = 0; j < map[temp].length; j++) {
-      if(discovered[map[temp][j]] != true) {
-        stack.push(map[temp][j]);
+    if(map[temp] != undefined) {
+      for(let j = 0; j < map[temp].length; j++) {
+        if(discovered[map[temp][j]] != true) {
+          stack.push(map[temp][j]);
+        }
       }
     }
   }
-  return order;
+  // return parseInt(order,10);
+  return order
+
 }
 
 
@@ -224,13 +221,13 @@ function dfs_dir(root, map, visited) {
   let key = Object.keys(map);
    let order = dfs(root, map);//array
    console.log("original", order);
-   let merge_order;
    for(let i = 0; i < key.length; i++) {
-    if(order.includes(parseInt(key[i])) == false) {
-      console.log("key[i]", key[i]);
-      let new_order = dfs_dir(key[i], map, order);
-      order = order.concat(parseInt(new_order));
-      console.log("merge_order", merge_order)
+    if(order.includes(parseInt(key[i], 10)) == false) {
+      //console.log("key[i]", key[i]);
+      let new_order = dfs_dir(parseInt(key[i],10), map, order);
+      console.log("new_order",new_order);
+      order = order.concat(new_order);
+      console.log("order",order)
     }
    }
    return order;
@@ -337,6 +334,12 @@ function topo(map) {
 ///////////////////////////
 //Shortest path using BFS//
 ///////////////////////////
+
+/**
+ * 
+ * @param {Number} root 
+ * @param {Object} map 
+ */
 function Shortest(root, map) {
   let discovered = [];
   let queue = [];
@@ -345,11 +348,23 @@ function Shortest(root, map) {
   let shortest_path = {};
   let V_path;
   let empty_array = [];
+  let key = Object.keys(map);// key of map
+  let int_key = [];
+  for(let i = 0; i < key.length;i++) {
+    int_key[i] = parseInt(key[i],10);
+  }
+  console.log(key);
 
   //ensure the input root is avaliable
   let check_root = check_input_root(map);
   if(check_root.includes(root) == false) {
     return "Your root is out of bound!"
+  }
+  // ensure the input is the end node
+  if(int_key.includes(root) == false) {
+    console.log("int_key",int_key);
+    console.log("TF",int_key.includes(root))
+    return "The node is the end node."
   }
 
 

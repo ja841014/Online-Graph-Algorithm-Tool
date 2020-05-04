@@ -28,11 +28,11 @@ app.listen(port, () => console.log(`App is listening on port ${port}.`));
 // //make everything under public folder avaliable to the outside world
  app.use(express.static("public"));
 
-app.get('/', function(req, res, next){
-  var form = fs.readFileSync('./form.html', {encoding: 'utf8'});
-  console.log(form);
-  res.send(form);
-  });
+// app.get('/', function(req, res, next){
+//   var form = fs.readFileSync('./form.html', {encoding: 'utf8'});
+//   console.log(form);
+//   res.send(form);
+//   });
 
 
 app.post("/",(req, res) => {
@@ -40,6 +40,7 @@ app.post("/",(req, res) => {
     if(req.files) {
       let file = req.files.file; // file is file_name which we define in the index.html
       let filename = file.name;
+      console.log(filename);
       //mv() => move()
       file.mv('/Users/laicunhao/Desktop/EE599/project/nodejs_template-master/uploads/'+ filename, function(err) {
         if(err) {
