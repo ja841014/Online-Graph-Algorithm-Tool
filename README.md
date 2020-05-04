@@ -39,16 +39,19 @@ Then open your browser to [http://localhost:3000]
 # Feature
 ## Text file Format
 Directed Graph Sample
+
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Directed_Graph_Sample.png" width="400">
+
 Undirected Graph Sample
+
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Undirected_Graph_Sample.png" width="400">
 
 # Demo
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/frontend_appearance.png" width="400">
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/frontend_appearance.png">
 We can click the dropdown menu to choose an algorithm.
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/DEMO_Select.png" width="400">
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/DEMO_Select.png">
 After we press the upload button, we can see our result on the screen.
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/backend/DEMO_TOPO.png" width="400">
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/backend/DEMO_TOPO.png">
 
 
 # Directory Structure
