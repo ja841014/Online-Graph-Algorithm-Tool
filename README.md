@@ -65,7 +65,8 @@ After we press the upload button, we can see our result on the screen.
 
 # Future Work
  • Let this project can handle the weighted graph.
- • Add more algorithms to make this project more useful 
+ 
+ • Add more algorithms to make this project more useful.
 
 # Directory Structure
 
