@@ -40,12 +40,20 @@ Then open your browser to [http://localhost:3000](http://localhost:3000)
 ### Text file Format
 Directed Graph Sample
 
+```bash
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Directed_Graph_Sample.png" width="400">
-
+```
 Undirected Graph Sample
 
+```bash
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Undirected_Graph_Sample.png" width="400">
+```
 
+### Algorithms
+• Depth - First Search
+• Breadth - First Search
+• Topological Sort
+• Shortest Path
 # Low level Details
 
 ### Frontend
@@ -57,13 +65,19 @@ Undirected Graph Sample
     d3-graphviz --- rendering of SVG graphs from DOT language.
 
 # Demo
-This is the homepage
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/frontend_appearance.png">
-We can click the dropdown menu to choose an algorithm.
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/DEMO_Select.png">
-After we press the upload button, we can see our result on the screen.
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/backend/DEMO_TOPO.png">
 
+This is the homepage
+```bash
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/frontend_appearance.png">
+```
+We can click the dropdown menu to choose an algorithm.
+```bash
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/DEMO_Select.png">
+```
+After we press the upload button, we can see our result on the screen.
+```bash
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/backend/DEMO_TOPO.png">
+```
 # Future Work
  • Let this project can handle the weighted graph.
  
