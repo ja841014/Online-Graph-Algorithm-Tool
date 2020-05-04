@@ -27,6 +27,34 @@ const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`App is listening on port ${port}.`));
 
+
+function check_input_root(map) {
+  // ensure the input root is avaliable
+  let key = Object.keys(map);// key of map
+  let size = [];
+  for(let i = 0; i < key.length; i++) {
+    if(size.includes(parseInt(key[i],10)) == false) {
+      //console.log("i",size.includes(key[i]));
+      size.push(parseInt(key[i],10));
+    }
+    //console.log("outside check: ",key[i])
+    //put the map_value into the size array
+    for(let j = 0; j < map[key[i]].length; j++) {
+      if(size.includes(map[key[i]][j] ) == false) {
+        size.push(map[key[i]][j]);
+        //console.log("inside check: ",map[key[i]][j])
+      }
+    }
+  }
+  return size;
+}
+
+
+
+
+
+
+
 /////////////////////////
 /// Build Directed Map///
 /////////////////////////
@@ -129,25 +157,11 @@ function dfs(root, map) {
   let stack = [];
   let order = [];
   //ensure the input root is avaliable
-  let key = Object.keys(map);// key of map
-  let size = [];
-  for(let i = 0; i < key.length; i++) {
-    if(size.includes(parseInt(key[i],10)) == false) {
-      //console.log("i",size.includes(key[i]));
-      size.push(parseInt(key[i],10));
-    }
-    //console.log("outside check: ",key[i])
-    //put the map_value into the size array
-    for(let j = 0; j < map[key[i]].length; j++) {
-      if(size.includes(map[key[i]][j] ) == false) {
-        size.push(map[key[i]][j]);
-        //console.log("inside check: ",map[key[i]][j])
-      }
-    }
-  }
-  if(size.includes(root) == false) {
+  let check_root = check_input_root(map);
+  if(check_root.includes(root) == false) {
     return "Your root is out of bound!"
   }
+
 
   stack.push(root);
   while(stack.length != 0) {
@@ -235,24 +249,9 @@ function bfs(root, map) {
   let discovered = [];
   let queue = [];
   let order = [];
-  // ensure the input root is avaliable
-  let key = Object.keys(map);// key of map
-  let size = [];
-  for(let i = 0; i < key.length; i++) {
-    if(size.includes(parseInt(key[i],10)) == false) {
-      //console.log("i",size.includes(key[i]));
-      size.push(parseInt(key[i],10));
-    }
-    //console.log("outside check: ",key[i])
-    //put the map_value into the size array
-    for(let j = 0; j < map[key[i]].length; j++) {
-      if(size.includes(map[key[i]][j] ) == false) {
-        size.push(map[key[i]][j]);
-        //console.log("inside check: ",map[key[i]][j])
-      }
-    }
-  }
-  if(size.includes(root) == false) {
+  //ensure the input root is avaliable
+  let check_root = check_input_root(map);
+  if(check_root.includes(root) == false) {
     return "Your root is out of bound!"
   }
 
@@ -330,10 +329,8 @@ function topo(map) {
         }
       }
     }
-   
-    count++;
+    //count++;
   }
- 
   return order;
 }
 
@@ -349,25 +346,12 @@ function Shortest(root, map) {
   let V_path;
   let empty_array = [];
 
-  let key = Object.keys(map);// key of map
-  let size = [];
-  for(let i = 0; i < key.length; i++) {
-    if(size.includes(parseInt(key[i],10)) == false) {
-      //console.log("i",size.includes(key[i]));
-      size.push(parseInt(key[i],10));
-    }
-    //console.log("outside check: ",key[i])
-    //put the map_value into the size array
-    for(let j = 0; j < map[key[i]].length; j++) {
-      if(size.includes(map[key[i]][j] ) == false) {
-        size.push(map[key[i]][j]);
-        //console.log("inside check: ",map[key[i]][j])
-      }
-    }
-  }
-  if(size.includes(root) == false) {
+  //ensure the input root is avaliable
+  let check_root = check_input_root(map);
+  if(check_root.includes(root) == false) {
     return "Your root is out of bound!"
   }
+
 
   discovered[root] = true;
   order.push(root);

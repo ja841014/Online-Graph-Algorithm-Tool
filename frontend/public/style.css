@@ -12,6 +12,7 @@
     100% { transform: rotate(360deg); }
   }
 
+
   .custom-file-input::-webkit-file-upload-button {
     visibility: hidden;
   }
