@@ -219,6 +219,11 @@ function dfs_dir(root, map, visited) {
 
  function dfs_direct(root, map) {
   let key = Object.keys(map);
+  // ensure the input root is suitable
+  let check_root = check_input_root(map);
+  if(check_root.includes(root) == false) {
+    return "Your root is out of bound!"
+  }
    let order = dfs(root, map);//array
    console.log("original", order);
    for(let i = 0; i < key.length; i++) {
@@ -429,9 +434,9 @@ app.post("/", async (req, res) => {
   console.log("undirected graph: ", undirected_map);
   let diredt_map = diredt_createmap(_text);
   console.log("directed graph: ", diredt_map);
-  //////////////////////////
-  //select the right Algo.//
-  //////////////////////////
+  ////////////////////////
+  ////Select the Algo.////
+  ////////////////////////
   let order;
   //Directed
   if(g > 0) {

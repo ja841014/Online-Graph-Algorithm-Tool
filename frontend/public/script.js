@@ -25,7 +25,6 @@ async function submit() {
     formData.append("calculate_type", calculate_type);
     formData.append("root", root);
     let filename = myfile.name;
-    console.log(filename);
     let size = myfile.size;
   
     let reader = new FileReader();//read operation done it by this

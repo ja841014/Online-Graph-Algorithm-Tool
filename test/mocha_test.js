@@ -35,6 +35,23 @@ describe("Find dfs order in undirected graph_2.", () => {
     assert.equal(JSON.stringify(myLib.dfs(root, map)), JSON.stringify(result));
   });
 });
+// Testing undirected dfs - 3
+describe("Find dfs order in undirected graph_3.", () => {
+  it("should return root out of bound", () => {
+    let map = {
+      '1': [ 2, 5 ],
+      '2': [ 1, 3, 4 ],
+      '3': [ 2 ],
+      '4': [ 2, 6 ],
+      '5': [ 1, 6 ],
+      '6': [ 4, 5, 7 ],
+      '7': [ 6 ]
+    };
+    let root = 9;
+    let result = "Your root is out of bound!";
+    assert.equal(JSON.stringify(myLib.dfs(root, map)), JSON.stringify(result));
+  });
+});
 // Testing directed dfs - 1
 describe("Find dfs order in directed graph_1.", () => {
   it("should return dfs order", () => {
@@ -50,6 +67,15 @@ describe("Find dfs order in directed graph_2.", () => {
     let map = { '2': [ 3 ], '3': [ 1 ], '4': [ 0, 1 ], '5': [ 0, 2 ] };
     let root = 5;
     let result = [5,2,3,1,0,4];
+    assert.equal(JSON.stringify(myLib.dfs_direct(root, map)), JSON.stringify(result));
+  });
+});
+// Testing directed dfs - 3
+describe("Find dfs order in directed graph_2.", () => {
+  it("should return root out of bound", () => {
+    let map = { '2': [ 3 ], '3': [ 1 ], '4': [ 0, 1 ], '5': [ 0, 2 ] };
+    let root = 9;
+    let result =  "Your root is out of bound!";
     assert.equal(JSON.stringify(myLib.dfs_direct(root, map)), JSON.stringify(result));
   });
 });

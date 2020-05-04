@@ -23,13 +23,13 @@ cd nodejs_template-master
 npm install
 ```
 
-## Running Backend
+### Running Backend
 ```bash
 cd backend
 node app.js
 ```
 
-## Running Frontend
+### Running Frontend
 ```bash
 cd frontend
 node app.js
@@ -37,7 +37,7 @@ node app.js
 Then open your browser to [http://localhost:3000](http://localhost:3000)
 
 # Feature
-## Text file Format
+### Text file Format
 Directed Graph Sample
 
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Directed_Graph_Sample.png" width="400">
@@ -48,15 +48,16 @@ Undirected Graph Sample
 
 # Low level Details
 
-## Frontend
+### Frontend
     1 html file, 1 css file and bootstrap
     Express --- communicate with backend
-## Backend
+### Backend
     Body parser --- In order to read HTTP POST data , we have to use "body-parser" node module. body-parser is a piece of express middleware that reads a form's input and stores it as a javascript object accessible through req.body
     Express --- communicate with frontend
     d3-graphviz --- rendering of SVG graphs from DOT language.
 
 # Demo
+This is the homepage
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/frontend_appearance.png">
 We can click the dropdown menu to choose an algorithm.
 <img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/DEMO_Select.png">
