@@ -13,7 +13,7 @@ Author: Chun-Hao, Lai
 
 In this project, the user enters a graph which is in text format in the frontend and asks to run an algorithm on this graph (DFS, BFS, Topological Sort and Shortest Path) The algorithm is run on the backend and the result will be sent back to the user. Besides, when users upload their text file, they can see their original graphical output on their screen.
 
-# Feature
+# Running this package
 
 To download, install, and test this package, run:
 
@@ -23,18 +23,18 @@ cd nodejs_template-master
 npm install
 ```
 
-# Running Backend
+## Running Backend
 ```bash
 cd backend
 node app.js
 ```
 
-# Running Frontend
+## Running Frontend
 ```bash
 cd frontend
 node app.js
 ```
-Then open your browser to [http://localhost:3000]
+Then open your browser to [http://localhost:3000](http://localhost:3000)
 
 # Feature
 ## Text file Format
