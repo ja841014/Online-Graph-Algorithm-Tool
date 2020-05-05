@@ -8,10 +8,40 @@ Final Project - a full-stack implementation of a Online Graph Algorithm Tool
 
 Author: Chun-Hao, Lai
 
-[Online Graph Algorithm Tool](https://graphonline.ru/en/)
+[Reference from Online Graph Algorithm Tool](https://graphonline.ru/en/)
+
 # Introduction
 
 In this project, the user enters a graph which is in text format in the frontend and asks to run an algorithm on this graph (DFS, BFS, Topological Sort and Shortest Path). The algorithm is run on the backend and the result will be sent back to the user. Besides, when users upload their text file, they can see their original graphical output on their screen.
+
+# Feature
+
+• Run an algorithm based on client's query.
+
+• Show the result and graphical output.
+
+• Can handle the error that root is out of bound.
+
+• Can only upload .txt and .dot file.
+
+### Text file Format
+
+Directed Graph Sample
+
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Directed_Graph_Sample.png" width="400">
+
+Undirected Graph Sample
+
+<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Undirected_Graph_Sample.png" width="400">
+
+### Algorithms
+• Depth - First Search
+
+• Breadth - First Search
+
+• Topological Sort
+
+• Shortest Path
 
 # Running this package
 
@@ -36,32 +66,18 @@ node app.js
 ```
 Then open your browser to [http://localhost:3000](http://localhost:3000)
 
-# Feature
-### Text file Format
-
-Directed Graph Sample
-
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Directed_Graph_Sample.png" width="400">
-
-Undirected Graph Sample
-
-<img alt="Frontend" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/Undirected_Graph_Sample.png" width="400">
-
-### Algorithms
-• Depth - First Search
-
-• Breadth - First Search
-
-• Topological Sort
-
-• Shortest Path
-
 # Low level Details
 
+<img alt="Process" src="https://github.com/ja841014/EE599_Project/blob/master/frontend/process.png" width="400">
+
 ### Frontend
-    1 html file, 1 css file and bootstrap
+    HTML 
+    CSS 
+    Bootstrap
+    JavaScript
     Express --- communicate with backend
 ### Backend
+    Node JS
     Body parser --- In order to read HTTP POST data , we have to use "body-parser" node module. body-parser is a piece of express middleware that reads a form's input and stores it as a javascript object accessible through req.body
     Express --- communicate with frontend
     d3-graphviz --- rendering of SVG graphs from DOT language.
