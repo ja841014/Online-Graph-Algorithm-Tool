@@ -44,6 +44,7 @@ async function submit() {
         
         console.log("data.data.order: ", JSON.stringify(data.data.order, null, 2))
         order.innerHTML = "Your " +calculate_type+ " order is: " + JSON.stringify(data.data.order, null, 2)
+        counter.innerHTML = "cumulative usage number: " + JSON.stringify(data.data.hit_count, null, 2);
       } catch (error) {
         console.log("error: ", error);
       }

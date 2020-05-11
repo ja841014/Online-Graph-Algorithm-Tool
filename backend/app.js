@@ -2,7 +2,7 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
-
+const fs = require("fs");
 // in order to read HTTP POST data , we have to use "body-parser" node module. body-parser is a piece of express middleware that reads a form's input and stores it as a javascript object accessible through req.body
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
@@ -402,13 +402,19 @@ function Shortest(root, map) {
 
 
 
+  let hit_count = 0;
 
 //////**********////////
 app.post("/", async (req, res) => {
+  
   console.log("I am in the post")
   // console.log(req.files);
   console.log("req.body", req.body);
 
+  // take the cumulative usage number
+  hit_count = fs.readFileSync('hit_count.txt', 'utf8');
+  hit_count++;
+  
   let root = parseInt(req.body.root, 10);
   console.log("user enter the root from html: ", root)// root is name attribute
   let calculate_type = req.body.calculate_type
@@ -471,14 +477,17 @@ app.post("/", async (req, res) => {
       console.log("shortest: ", order);
     }
     else if(calculate_type == 'Topological_Sort') {
-      order = "Topological sort must has a directeed graph."
+      order = "Topological sort must has a directeed graph.";
     }
   }
  
   let output = {
     // randomValue: randomValue,
-    order: order
+    order: order,
+    hit_count: hit_count
   };
+
+  fs.writeFileSync('hit_count.txt', hit_count);
 
   // Convert output to JSON
   let outputString = JSON.stringify(output, null, 2);
